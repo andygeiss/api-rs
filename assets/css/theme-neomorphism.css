@@ -1,0 +1,16 @@
+:root {
+    /* Colors */
+    --background: #ebecf0;
+    --color-accent: #1657f0;
+    --color-text: #6c7587;
+    --color-shadow: #73738e66;
+    /* Sizes */
+    --border: none;
+    --border-radius: 12px;
+    --box-shadow: 8px 8px 12px -2px var(--color-shadow),
+        -6px -6px 12px -1px white;
+    --box-shadow-inset: inset -4px -4px 6px -1px white,
+        inset 2px 2px 8px -1px var(--color-shadow);
+    --padding: 4px 8px;
+    --margin: 12px;
+}
