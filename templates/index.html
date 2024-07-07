@@ -19,14 +19,5 @@
         <link href="/css/index.css" rel="stylesheet" />
         <title>Rust template</title>
     </head>
-    {% if token.is_empty() %}
-    <body hx-get="/signin" hx-trigger="load"></body>
-    {% else %}
-    <body
-        hx-headers='{"Authorization": "Bearer {{ token }}"}'
-        hx-get="/app"
-        hx-trigger="load"
-    >
-        {% endif %}
-    </body>
+    <body hx-get="/home" hx-trigger="load"></body>
 </html>

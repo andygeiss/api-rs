@@ -5,7 +5,7 @@ use axum::{
 };
 
 #[derive(Template)]
-#[template(path = "index.html")]
+#[template(path = "home.html")]
 struct Data {}
 
 pub async fn read() -> impl IntoResponse {

@@ -1,4 +1,4 @@
-use crate::routes::index;
+use crate::routes::{home, index};
 use axum::{routing::get, Router};
 use tower_http::{
     compression::CompressionLayer,
@@ -10,6 +10,7 @@ use tracing::Level;
 pub fn service() -> Router {
     Router::new()
         .route("/", get(index::read))
+        .route("/home", get(home::read))
         .layer(CompressionLayer::new())
         .layer(
             TraceLayer::new_for_http()
