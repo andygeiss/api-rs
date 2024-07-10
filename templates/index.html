@@ -19,5 +19,13 @@
         <link href="/css/index.css" rel="stylesheet" />
         <title>Rust template</title>
     </head>
-    <body hx-get="/home" hx-trigger="load"></body>
+    {% if token.is_empty() %}
+    <body hx-get="/sign_in" hx-trigger="load"></body>
+    {% else %}
+    <body
+        hx-headers='{"Authorization": "{{ token }}"}'
+        hx-get="/home"
+        hx-trigger="load"
+    ></body>
+    {% endif %}
 </html>
