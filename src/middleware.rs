@@ -18,9 +18,9 @@ struct SignInForm {
 }
 
 #[derive(Clone, Deserialize)]
-pub struct Session {
+pub struct Token {
     #[serde(default)]
-    pub token: String,
+    pub data: String,
 }
 
 pub async fn authorize(mut req: Request, next: Next) -> Result<Response, StatusCode> {
@@ -50,9 +50,9 @@ fn handle_token(req: &mut Request) {
         .get(header::AUTHORIZATION)
         .and_then(|value| value.to_str().ok());
     // Add session information as an extension
-    let mut token = "".to_string();
+    let mut data = "".to_string();
     if let Some(value) = authorization {
-        token = value.to_string();
+        data = value.to_string();
     }
-    req.extensions_mut().insert(Session { token });
+    req.extensions_mut().insert(Token { data });
 }

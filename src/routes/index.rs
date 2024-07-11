@@ -1,4 +1,4 @@
-use crate::middleware::Session;
+use crate::middleware::Token;
 use askama::Template;
 use axum::{
     http::StatusCode,
@@ -12,8 +12,8 @@ struct Data {
     token: String,
 }
 
-pub async fn show_index(Extension(session): Extension<Session>) -> impl IntoResponse {
-    let token = session.token;
+pub async fn show_index(Extension(token): Extension<Token>) -> impl IntoResponse {
+    let token = token.data;
     let template = Data { token };
     let response = template.render().unwrap();
     (StatusCode::OK, Html(response).into_response())
