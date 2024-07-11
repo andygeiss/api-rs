@@ -13,7 +13,7 @@ struct Data {
 }
 
 pub async fn show_index(Extension(token): Extension<Token>) -> impl IntoResponse {
-    let token = token.data;
+    let token = token.value;
     let template = Data { token };
     let response = template.render().unwrap();
     (StatusCode::OK, Html(response).into_response())

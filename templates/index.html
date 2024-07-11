@@ -23,7 +23,7 @@
     <body hx-get="/sign_in" hx-trigger="load"></body>
     {% else %}
     <body
-        hx-headers='{"Authorization": "{{ token }}"}'
+        hx-headers='{"Authorization": "Bearer {{ token }}"}'
         hx-get="/home"
         hx-trigger="load"
     ></body>

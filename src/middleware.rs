@@ -1,58 +1,33 @@
 use axum::{
-    body::Body,
-    extract::{self, Form, FromRequest, Request},
+    extract::Request,
     http::{header, StatusCode},
     middleware::Next,
     response::Response,
-    Json, RequestExt, Router,
 };
 use serde::Deserialize;
 
-#[derive(Deserialize)]
-#[allow(dead_code)]
-struct SignInForm {
-    #[serde(default)]
-    username: String,
-    #[serde(default)]
-    password: String,
+#[derive(Clone, Deserialize)]
+pub struct Token {
+    pub value: String,
 }
 
 #[derive(Clone, Deserialize)]
-pub struct Token {
-    #[serde(default)]
-    pub data: String,
+pub struct User {
+    pub name: String,
 }
 
 pub async fn authorize(mut req: Request, next: Next) -> Result<Response, StatusCode> {
-    handle_form(&mut req);
-    handle_token(&mut req);
-    return Ok(next.run(req).await);
-    // Err(StatusCode::UNAUTHORIZED)
-}
-
-fn handle_form(req: &mut Request) {
-    // Extract form
-    let content_type = req
-        .headers_mut()
-        .get(header::CONTENT_TYPE)
-        .and_then(|value| value.to_str().ok());
-    if let Some(value) = content_type {
-        if value.starts_with("application/x-www-form-urlencoded") && req.method().as_str() == "POST"
-        {
-        }
+    let mut user_name = "".to_string();
+    let mut token_value = "".to_string();
+    if let Some(value) = req.headers().get(header::AUTHORIZATION) {
+        token_value = value.to_str().unwrap().to_string();
+        println!("authorize: token {:?}", token_value);
     }
-}
-
-fn handle_token(req: &mut Request) {
-    // Extract authorization header
-    let authorization = req
-        .headers_mut()
-        .get(header::AUTHORIZATION)
-        .and_then(|value| value.to_str().ok());
-    // Add session information as an extension
-    let mut data = "".to_string();
-    if let Some(value) = authorization {
-        data = value.to_string();
-    }
-    req.extensions_mut().insert(Token { data });
+    /* Block API requests without a token
+    if req.uri().path().starts_with("/api") && req.extensions().get::<User>().is_none() {
+        return Err(StatusCode::UNAUTHORIZED);
+        } */
+    req.extensions_mut().insert(Token { value: token_value });
+    req.extensions_mut().insert(User { name: user_name });
+    Ok(next.run(req).await)
 }
