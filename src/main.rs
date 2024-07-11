@@ -5,6 +5,7 @@ mod middleware;
 mod prelude;
 mod router;
 mod routes;
+mod security;
 
 #[tokio::main]
 async fn main() -> Result<()> {

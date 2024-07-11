@@ -1,6 +1,6 @@
 use crate::{
     middleware::authorize,
-    routes::{home::show_home, index::show_index, sign_in::show_sign_in},
+    routes::{home, index, sign_in},
 };
 use axum::{middleware, routing::get, Router};
 use tower_http::{
@@ -12,10 +12,10 @@ use tracing::Level;
 
 pub fn service() -> Router {
     Router::new()
-        .route("/", get(show_index).post(show_index))
-        .route("/home", get(show_home))
-        .route("/sign_in", get(show_sign_in))
+        .route("/home", get(home::default))
         .route_layer(middleware::from_fn(authorize))
+        .route("/sign_in", get(sign_in::default))
+        .route("/", get(index::default).post(index::parse_form))
         .layer(CompressionLayer::new())
         .layer(
             TraceLayer::new_for_http()
