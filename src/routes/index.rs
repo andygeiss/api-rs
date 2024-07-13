@@ -1,7 +1,9 @@
-use crate::security;
+use crate::{
+    security, services::authentication::repositories::AccountRepository, state::SharedState,
+};
 use askama::Template;
 use axum::{
-    extract::Form,
+    extract::{Form, State},
     http::StatusCode,
     response::{Html, IntoResponse},
 };
@@ -27,11 +29,18 @@ pub async fn default() -> impl IntoResponse {
     (StatusCode::OK, Html(response).into_response())
 }
 
-pub async fn parse_form(Form(form): Form<SignIn>) -> impl IntoResponse {
+pub async fn parse_form(
+    State(state): State<SharedState>,
+    Form(form): Form<SignIn>,
+) -> impl IntoResponse {
     let mut token = "".to_string();
     // Check user credentials
-    if form.username == "foo" && form.password == "bar" {
-        // Create a new token
+    if let Ok(account) = state
+        .account_repository
+        .lock()
+        .unwrap()
+        .read("foo".to_string())
+    {
         token = security::create_token();
     }
     // Create a template response

@@ -1,4 +1,10 @@
 use crate::prelude::*;
+use repositories::account_file::AccountFileRepository;
+use services::authentication::{repositories::AccountRepository, service::AccountServiceImpl};
+use std::{
+    clone,
+    sync::{Arc, Mutex},
+};
 
 mod error;
 mod middleware;
@@ -12,12 +18,17 @@ mod state;
 
 #[tokio::main]
 async fn main() -> Result<()> {
+    tracing_subscriber::fmt().compact().init();
     let name = env!("CARGO_PKG_NAME");
     let version = env!("CARGO_PKG_VERSION");
     println!("🚀 {name} version {version} started successfully.");
-    tracing_subscriber::fmt().compact().init();
+
+    let afp = "./data/accounts.json".to_string();
+    let afr = Arc::new(Mutex::new(AccountFileRepository::new(afp.clone())));
+    let asi = Arc::new(Mutex::new(AccountServiceImpl::new(afr.clone())));
+
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8000").await?;
-    let state = state::SharedState::new();
+    let state = state::SharedState::new(afr, asi);
     axum::serve(listener, router::service_with_state(state)).await?;
     Ok(())
 }
