@@ -41,10 +41,31 @@ impl AccountRepository for AccountFileRepository {
         Err(Error::Generic(format!("account with id {id} not found!")))
     }
     fn update(&self, account: Account, password: String) -> Result<Account> {
-        Err(Error::Generic("unimplemented".to_string()))
+        // Read the accounts from a file
+        let mut accounts: Vec<Account> = read_accounts(self.path.clone())?;
+        // Update a specific account by id and return it
+        let mut changed = false;
+        if let Some(account) = accounts.iter_mut().find(|a| a.id == account.id) {
+            account.hash = password;
+            changed = true;
+        }
+        if changed {
+            write_accounts(self.path.clone(), accounts)?;
+            return Ok(account.clone());
+        }
+        // Or return an error if not exists
+        Err(Error::Generic(format!(
+            "account with id {} not found!",
+            account.id
+        )))
     }
     fn delete(&self, account: Account) -> Result<()> {
-        Err(Error::Generic("unimplemented".to_string()))
+        // Read the accounts from a file
+        let mut accounts: Vec<Account> = read_accounts(self.path.clone())?;
+        // Removee a specific account by id
+        accounts.retain(|a| a.id != account.id);
+        write_accounts(self.path.clone(), accounts)?;
+        Ok(())
     }
 }
 
