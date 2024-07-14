@@ -36,8 +36,8 @@ pub async fn parse_form(
     if let Ok(account) = state.account_repository.lock().unwrap().read(form.username) {
         let password = form.password;
         let password_hash = account.hash;
-        if security::is_password_valid(password_hash, password) {
-            token = security::create_token();
+        if security::password::is_valid(password_hash, password) {
+            token = security::token::create();
         }
     }
     // Create a template response

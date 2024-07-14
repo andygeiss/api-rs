@@ -1,3 +1,4 @@
+use crate::security;
 use axum::{
     extract::Request,
     http::{header, StatusCode},
@@ -5,8 +6,6 @@ use axum::{
     response::Response,
 };
 use serde::Deserialize;
-
-use crate::security;
 
 #[derive(Clone, Deserialize)]
 pub struct Token {
@@ -19,7 +18,7 @@ pub async fn authorize(mut req: Request, next: Next) -> Result<Response, StatusC
         let value = hv.to_str().unwrap().to_string();
         // Check the token
         let (_, suffix) = value.split_at(7);
-        if security::is_token_valid(suffix.to_string()) {
+        if security::token::is_valid(suffix.to_string()) {
             req.extensions_mut().insert(Token { value });
         }
         return Ok(next.run(req).await);
