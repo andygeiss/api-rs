@@ -1,5 +1,6 @@
 use crate::{
     prelude::*,
+    security,
     services::authentication::{entities::Account, repositories::AccountRepository},
 };
 
@@ -25,7 +26,8 @@ impl AccountRepository for AccountFileRepository {
             return Ok(account.clone());
         }
         // Or create a new account, save and return it
-        let account = Account { id, hash: password };
+        let hash = security::create_hash(password);
+        let account = Account { id, hash };
         accounts.push(account.clone());
         write_accounts(self.path.clone(), accounts)?;
         Ok(account)
@@ -46,7 +48,8 @@ impl AccountRepository for AccountFileRepository {
         // Update a specific account by id and return it
         let mut changed = false;
         if let Some(account) = accounts.iter_mut().find(|a| a.id == account.id) {
-            account.hash = password;
+            let hash = security::create_hash(password);
+            account.hash = hash;
             changed = true;
         }
         if changed {
