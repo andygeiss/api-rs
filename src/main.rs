@@ -1,6 +1,5 @@
 use crate::prelude::*;
 use repositories::account_file::AccountFileRepository;
-use services::authentication::service::AccountServiceImpl;
 use std::sync::{Arc, Mutex};
 
 mod error;
@@ -19,13 +18,10 @@ async fn main() -> Result<()> {
     let name = env!("CARGO_PKG_NAME");
     let version = env!("CARGO_PKG_VERSION");
     println!("🚀 {name} version {version} started successfully.");
-
-    let afp = "./data/accounts.json".to_string();
-    let afr = Arc::new(Mutex::new(AccountFileRepository::new(afp.clone())));
-    let asi = Arc::new(Mutex::new(AccountServiceImpl::new(afr.clone())));
-
+    let path = "./data/accounts.json".to_string();
+    let repo = Arc::new(Mutex::new(AccountFileRepository::new(path.clone())));
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8000").await?;
-    let state = state::SharedState::new(afr, asi);
+    let state = state::SharedState::new(repo);
     axum::serve(listener, router::service_with_state(state)).await?;
     Ok(())
 }
