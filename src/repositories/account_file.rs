@@ -62,7 +62,7 @@ impl AccountRepository for AccountFileRepository {
     fn delete(&self, account: Account) -> Result<()> {
         // Read the accounts from a file
         let mut accounts: Vec<Account> = read_accounts(self.path.clone())?;
-        // Removee a specific account by id
+        // Remove a specific account by id
         accounts.retain(|a| a.id != account.id);
         write_accounts(self.path.clone(), accounts)?;
         Ok(())
