@@ -1,7 +1,5 @@
 use crate::prelude::*;
 use repositories::account_file::AccountFileRepository;
-use services::authentication::repositories::AccountRepository;
-use std::sync::{Arc, Mutex};
 
 mod error;
 mod middleware;
