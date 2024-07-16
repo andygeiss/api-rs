@@ -42,31 +42,22 @@ impl AccountRepository for AccountFileRepository {
         // Or return an error if not exists
         Err(Error::Generic(format!("account with id {id} not found!")))
     }
-    fn update(&self, account: Account, password: String) -> Result<Account> {
+    fn update(&self, id: String, password: String) -> Result<()> {
         // Read the accounts from a file
         let mut accounts: Vec<Account> = read_accounts(self.path.clone())?;
         // Update a specific account by id and return it
-        let mut changed = false;
-        if let Some(account) = accounts.iter_mut().find(|a| a.id == account.id) {
+        if let Some(account) = accounts.iter_mut().find(|a| a.id == id) {
             let hash = security::password::create_hash(password);
             account.hash = hash;
-            changed = true;
         }
-        if changed {
-            write_accounts(self.path.clone(), accounts)?;
-            return Ok(account.clone());
-        }
-        // Or return an error if not exists
-        Err(Error::Generic(format!(
-            "account with id {} not found!",
-            account.id
-        )))
+        write_accounts(self.path.clone(), accounts)?;
+        return Ok(());
     }
-    fn delete(&self, account: Account) -> Result<()> {
+    fn delete(&self, id: String) -> Result<()> {
         // Read the accounts from a file
         let mut accounts: Vec<Account> = read_accounts(self.path.clone())?;
         // Remove a specific account by id
-        accounts.retain(|a| a.id != account.id);
+        accounts.retain(|a| a.id != id);
         write_accounts(self.path.clone(), accounts)?;
         Ok(())
     }
