@@ -19,7 +19,7 @@ async fn main() -> Result<()> {
     let account_repo = thread_safe(AccountFileRepository::new(account_path.clone()));
     // Client mode
     // cargo run create-account --id foo --password bar
-    if cli::handle_client_mode(account_repo.clone())? {
+    if cli::has_client_result(account_repo.clone())? {
         return Ok(());
     };
     // Server mode
