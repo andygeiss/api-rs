@@ -15,10 +15,10 @@ mod state;
 #[tokio::main]
 async fn main() -> Result<()> {
     tracing_subscriber::fmt().compact().init();
-    let path = "./data/accounts.json".to_string();
-    let repo = thread_safe(AccountFileRepository::new(path.clone()));
+    let account_path = "./data/accounts.json".to_string();
+    let account_repo = thread_safe(AccountFileRepository::new(account_path.clone()));
     // Client mode
-    if cli::handle_client_mode(repo.clone())? {
+    if cli::handle_client_mode(account_repo.clone())? {
         return Ok(());
     };
     // Server mode
@@ -26,7 +26,7 @@ async fn main() -> Result<()> {
     let version = env!("CARGO_PKG_VERSION");
     println!("🚀 {name} version {version} started successfully.");
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8000").await?;
-    let state = state::SharedState::new(repo);
+    let state = state::SharedState::new(account_repo);
     axum::serve(listener, router::service_with_state(state)).await?;
     Ok(())
 }
