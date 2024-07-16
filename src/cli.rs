@@ -22,7 +22,7 @@ pub struct Args {
     pub password: Option<String>,
 }
 
-pub fn handle_client_mode(repo: Arc<Mutex<dyn AccountRepository>>) -> Result<()> {
+pub fn handle_client_mode(repo: Arc<Mutex<dyn AccountRepository>>) -> Result<bool> {
     let args = Args::parse();
     if let Some(cmd) = args.client_command {
         match cmd {
@@ -47,6 +47,7 @@ pub fn handle_client_mode(repo: Arc<Mutex<dyn AccountRepository>>) -> Result<()>
                 println!("Deleting Account done.");
             }
         }
+        return Ok(true);
     }
-    Ok(())
+    Ok(false)
 }

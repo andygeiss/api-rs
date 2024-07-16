@@ -18,7 +18,9 @@ async fn main() -> Result<()> {
     let path = "./data/accounts.json".to_string();
     let repo = thread_safe(AccountFileRepository::new(path.clone()));
     // Client mode
-    cli::handle_client_mode(repo.clone())?;
+    if cli::handle_client_mode(repo.clone())? {
+        return Ok(());
+    };
     // Server mode
     let name = env!("CARGO_PKG_NAME");
     let version = env!("CARGO_PKG_VERSION");
