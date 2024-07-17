@@ -26,7 +26,7 @@ async fn main() -> Result<()> {
     let name = env!("CARGO_PKG_NAME");
     let version = env!("CARGO_PKG_VERSION");
     println!("🚀 {name} version {version} started successfully.");
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:8000").await?;
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:8080").await?;
     let state = state::SharedState::new(account_repo);
     axum::serve(listener, router::service_with_state(state)).await?;
     Ok(())
