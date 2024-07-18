@@ -1,0 +1,102 @@
+:root {
+    /* Colors */
+    --background: #ebecf0;
+    --color-accent: #1657f0;
+    --color-text: #6c7587;
+    --color-shadow: #73738e66;
+    /* Fonts */
+    --font-family: "Poppins", sans-serif;
+}
+
+/* Reset */
+* {
+    box-sizing: border-box;
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+/* Custom */
+body {
+    align-items: center;
+    background: url("/img.jpg");
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.wrapper {
+    align-content: center;
+    background: transparent;
+    backdrop-filter: blur(16px);
+    border-radius: 16px;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
+    color: white;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    width: 420px;
+}
+
+.wrapper h1 {
+    font-size: 32px;
+    margin-top: 16px;
+    text-align: center;
+}
+
+.wrapper .input-box {
+    align-items: center;
+    display: flex;
+    background: transparent;
+    height: 64px;
+    justify-content: center;
+    margin: 16px 0;
+    padding: 8px 16px;
+    width: 100%;
+}
+
+.input-box input {
+    background: transparent;
+    border: none;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 32px;
+    font-size: 14pt;
+    height: 100%;
+    margin: 0 16px;
+    padding: 0 16px;
+    outline: none;
+    width: 100%;
+}
+
+.remember-forgot {
+    padding: 16px;
+}
+
+button {
+    background: white;
+    border: none;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 32px;
+    font-size: 14pt;
+    height: 100%;
+    margin: 0 16px;
+    padding: 0 16px;
+    width: 200px;
+}
+
+.register-link {
+    margin-bottom: 8px;
+    margin-top: 16px;
+    text-align: center;
+}
+
+.register-link a {
+    color: white;
+    font-weight: 600;
+    margin-left: 16px;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}

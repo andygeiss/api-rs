@@ -1,24 +1,24 @@
 <form action="/" enctype="application/x-www-form-urlencoded" method="post">
-    <span> Welcome </span>
-    <div data-validate="Enter username">
-        <input type="text" name="username" />
-        <span data-placeholder="Username"></span>
+    <div class="wrapper">
+        <h1>Login</h1>
+        <div class="input-box">
+            <label for="username"> Username </label>
+            <input type="text" id="username" name="username" />
+            <i class="bx bxs-user"></i>
+        </div>
+        <div class="input-box">
+            <label for="password"> Password </label>
+            <input type="password" name="password" />
+            <i class="bx bxs-lock-alt"></i>
+        </div>
+        <div class="remember-forgot">
+            <label> <input type="checkbox" /> Remember me </label>
+        </div>
+        <div class="input-box">
+            <button>Login</button>
+        </div>
+        <div class="register-link">
+            <p>Don't have an account?<a href="/register">Register</a></p>
+        </div>
     </div>
-    <div data-validate="Enter password">
-        <input type="password" name="password" />
-        <span data-placeholder="Password"></span>
-    </div>
-    <div>
-        <button>Login</button>
-    </div>
-    <ul>
-        <li>
-            <span> Forgot </span>
-            <a href="/reset"> Username / Password? </a>
-        </li>
-        <li>
-            <span> Don’t have an account? </span>
-            <a href="/sign_up"> Sign up </a>
-        </li>
-    </ul>
 </form>
