@@ -20,7 +20,7 @@
 /* Custom */
 body {
     align-items: center;
-    background: url("/background.jpg");
+    background: linear-gradient(45deg, red, purple, blue);
     display: flex;
     justify-content: center;
     min-height: 100vh;
