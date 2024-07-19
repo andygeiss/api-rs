@@ -20,7 +20,7 @@
 /* Custom */
 body {
     align-items: center;
-    background: linear-gradient(45deg, red, purple, blue);
+    background: linear-gradient(45deg, red 10%, purple 50%, blue);
     display: flex;
     justify-content: center;
     min-height: 100vh;
@@ -28,13 +28,14 @@ body {
 
 .wrapper {
     align-content: center;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 16px;
     box-shadow: 0 0 32px rgba(0, 0, 0, 0.35);
     color: white;
     display: flex;
     flex-flow: column;
     justify-content: center;
+    padding: 16px;
     width: 420px;
 }
 
