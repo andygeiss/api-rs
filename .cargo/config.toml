@@ -8,4 +8,5 @@ strip = "symbols"
 linker = "x86_64-linux-musl-gcc"
 # rustup target add x86_64-unknown-linux-musl
 # brew install FiloSottile/musl-cross/musl-cross
-# TARGET_CC=x86_64-linux-musl-gcc cargo build --release --target x86_64-unknown-linux-musl ; mv target/x86_64-unknown-linux-musl/release/api-rs server
+# TARGET_CC=x86_64-linux-musl-gcc cargo build --release --target x86_64-unknown-linux-musl
+# mv target/x86_64-unknown-linux-musl/release/api-rs server
