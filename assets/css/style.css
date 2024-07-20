@@ -26,36 +26,6 @@ body {
     min-height: 100vh;
 }
 
-.login {
-    align-content: center;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 16px;
-    box-shadow: 0 0 32px rgba(0, 0, 0, 0.35);
-    color: white;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    padding: 16px;
-    width: 420px;
-}
-
-.login h1 {
-    font-size: 32px;
-    margin-top: 16px;
-    text-align: center;
-}
-
-.login .input-box {
-    align-items: center;
-    display: flex;
-    background: transparent;
-    height: 64px;
-    justify-content: center;
-    margin: 16px 0;
-    padding: 8px 16px;
-    width: 100%;
-}
-
 .input-box input {
     background: transparent;
     border: none;
@@ -71,23 +41,6 @@ body {
 
 .input-box input:hover {
     border: 2px solid white;
-}
-
-.remember-forgot {
-    align-items: center;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    justify-content: center;
-    padding: 16px;
-    text-align: center;
-}
-
-.remember-forgot a {
-    color: white;
-}
-
-.remember-forgot a:hover {
-    text-decoration: underline;
 }
 
 .input-box button {
@@ -108,19 +61,66 @@ body {
     color: white;
 }
 
-.register-link {
+#login {
+    align-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    box-shadow: 0 0 32px rgba(0, 0, 0, 0.35);
+    color: white;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    padding: 16px;
+    width: 420px;
+}
+
+#login h1 {
+    font-size: 32px;
+    margin-top: 16px;
+    text-align: center;
+}
+
+#login .input-box {
+    align-items: center;
+    display: flex;
+    background: transparent;
+    height: 64px;
+    justify-content: center;
+    margin: 16px 0;
+    padding: 8px 16px;
+    width: 100%;
+}
+
+#remember-forgot {
+    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    padding: 16px;
+    text-align: center;
+}
+
+#remember-forgot a {
+    color: white;
+}
+
+#remember-forgot a:hover {
+    text-decoration: underline;
+}
+
+#register-link {
     margin-bottom: 16px;
     margin-top: 16px;
     text-align: center;
 }
 
-.register-link a {
+#register-link a {
     color: white;
     font-weight: 600;
     margin-left: 16px;
 }
 
-.register-link a:hover {
+#register-link a:hover {
     text-decoration: underline;
 }
 
