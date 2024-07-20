@@ -20,7 +20,7 @@
 /* Custom */
 body {
     align-items: center;
-    background: linear-gradient(45deg, red 10%, purple 50%, blue);
+    background: linear-gradient(45deg, blue 10%, purple 30%, red 90%);
     display: flex;
     justify-content: center;
     min-height: 100vh;
@@ -122,4 +122,11 @@ body {
 
 .register-link a:hover {
     text-decoration: underline;
+}
+
+#rustacean {
+    bottom: 32px;
+    left: 32px;
+    position: absolute;
+    width: 384px;
 }
