@@ -24,9 +24,9 @@ async fn main() -> Result<()> {
         return Ok(());
     };
     // Async processing
-    let workflow = WorkflowImpl::new();
+    let workflow = WorkflowImpl::new(account_repo.clone());
     let result = workflow.process().await?;
-    println!("📦 '{result}' after async processing.");
+    println!("📦 {result} after async processing.");
     // Server mode
     let name = env!("CARGO_PKG_NAME");
     let version = env!("CARGO_PKG_VERSION");
