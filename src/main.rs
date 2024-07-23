@@ -1,5 +1,6 @@
 use crate::prelude::*;
 use repositories::account_file::AccountFileRepository;
+use services::processing::workflows::{Workflow, WorkflowImpl};
 
 mod cli;
 mod error;
@@ -22,6 +23,10 @@ async fn main() -> Result<()> {
     if cli::has_client_result(account_repo.clone())? {
         return Ok(());
     };
+    // Async processing
+    let workflow = WorkflowImpl::new();
+    let result = workflow.process().await?;
+    println!("📦 '{result}' after async processing.");
     // Server mode
     let name = env!("CARGO_PKG_NAME");
     let version = env!("CARGO_PKG_VERSION");
