@@ -35,7 +35,7 @@ pub async fn parse_form(Form(form): Form<SignIn>) -> impl IntoResponse {
     // Check user credentials
     let path = "./data/accounts.json".to_string();
     let repo = AccountFileRepository::new(path.clone());
-    if let Ok(account) = repo.read(form.username).await {
+    if let Ok(account) = repo.read(form.username) {
         let password = form.password;
         let password_hash = account.hash;
         if security::password::is_valid(password_hash, password) {

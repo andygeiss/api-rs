@@ -14,12 +14,11 @@ impl AccountFileRepository {
     }
 }
 
-#[async_trait]
 impl AccountRepository for AccountFileRepository {
-    async fn create(&self, id: String, password: String) -> Result<Account> {
+    fn create(&self, id: String, password: String) -> Result<Account> {
         let mut accounts: Vec<Account> = vec![];
         // Get accounts from file
-        if let Ok(from_file) = read_accounts(self.path.clone()).await {
+        if let Ok(from_file) = read_accounts(self.path.clone()) {
             accounts = from_file;
         }
         // Do nothing if the account id already exists
@@ -30,12 +29,12 @@ impl AccountRepository for AccountFileRepository {
         let hash = security::password::create_hash(password);
         let account = Account { id, hash };
         accounts.push(account.clone());
-        write_accounts(self.path.clone(), accounts).await?;
+        write_accounts(self.path.clone(), accounts)?;
         Ok(account)
     }
-    async fn read(&self, id: String) -> Result<Account> {
+    fn read(&self, id: String) -> Result<Account> {
         // Read the accounts from a file
-        let accounts: Vec<Account> = read_accounts(self.path.clone()).await?;
+        let accounts: Vec<Account> = read_accounts(self.path.clone())?;
         // Find a specific account by id and return it
         if let Some(account) = accounts.iter().find(|a| a.id == id) {
             return Ok(account.clone());
@@ -43,34 +42,34 @@ impl AccountRepository for AccountFileRepository {
         // Or return an error if not exists
         Err(Error::Generic(format!("account with id {id} not found!")))
     }
-    async fn update(&self, id: String, password: String) -> Result<()> {
+    fn update(&self, id: String, password: String) -> Result<()> {
         // Read the accounts from a file
-        let mut accounts: Vec<Account> = read_accounts(self.path.clone()).await?;
+        let mut accounts: Vec<Account> = read_accounts(self.path.clone())?;
         // Update a specific account by id and return it
         if let Some(account) = accounts.iter_mut().find(|a| a.id == id) {
             let hash = security::password::create_hash(password);
             account.hash = hash;
         }
-        write_accounts(self.path.clone(), accounts).await?;
+        write_accounts(self.path.clone(), accounts)?;
         return Ok(());
     }
-    async fn delete(&self, id: String) -> Result<()> {
+    fn delete(&self, id: String) -> Result<()> {
         // Read the accounts from a file
-        let mut accounts: Vec<Account> = read_accounts(self.path.clone()).await?;
+        let mut accounts: Vec<Account> = read_accounts(self.path.clone())?;
         // Remove a specific account by id
         accounts.retain(|a| a.id != id);
-        write_accounts(self.path.clone(), accounts).await?;
+        write_accounts(self.path.clone(), accounts)?;
         Ok(())
     }
 }
 
-async fn read_accounts(path: String) -> Result<Vec<Account>> {
+fn read_accounts(path: String) -> Result<Vec<Account>> {
     let contents = std::fs::read_to_string(path)?;
     let accounts: Vec<Account> = serde_json::from_str(contents.as_str())?;
     Ok(accounts)
 }
 
-async fn write_accounts(path: String, accounts: Vec<Account>) -> Result<()> {
+fn write_accounts(path: String, accounts: Vec<Account>) -> Result<()> {
     let contents = serde_json::to_string(&accounts)?;
     std::fs::write(path, contents)?;
     Ok(())
