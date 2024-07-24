@@ -1,7 +1,9 @@
 use crate::prelude::*;
-use crate::services::authentication::repositories::AccountRepository;
+use crate::{
+    repositories::account_file::AccountFileRepository,
+    services::authentication::repositories::AccountRepository,
+};
 use clap::{Parser, ValueEnum};
-use std::sync::{Arc, Mutex};
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
@@ -35,38 +37,40 @@ pub enum Mode {
     Server,
 }
 
-fn handle_client_mode(repo: Arc<Mutex<dyn AccountRepository>>) -> Result<()> {
+async fn handle_client_mode() -> Result<()> {
     let args = ClientArgs::parse();
+    let path = "./data/accounts.json".to_string();
+    let repo = AccountFileRepository::new(path.clone());
     match args.client_command {
         ClientCommand::CreateAccount => {
             if let Some(password) = args.password {
-                let account = repo.lock().unwrap().create(args.id, password)?;
+                let account = repo.create(args.id, password).await?;
                 println!("Creating Account ... got {:?}", account);
             }
         }
         ClientCommand::ReadAccout => {
-            let account = repo.lock().unwrap().read(args.id)?;
+            let account = repo.read(args.id).await?;
             println!("Reading Account ... got {:?}", account);
         }
         ClientCommand::UpdateAccount => {
             if let Some(password) = args.password {
-                repo.lock().unwrap().update(args.id, password)?;
+                repo.update(args.id, password).await?;
                 println!("Updating Account done.");
             }
         }
         ClientCommand::DeleteAccount => {
-            repo.lock().unwrap().delete(args.id)?;
+            repo.delete(args.id).await?;
             println!("Deleting Account done.");
         }
     }
     Ok(())
 }
 
-pub fn has_client_result(repo: Arc<Mutex<dyn AccountRepository>>) -> Result<bool> {
+pub async fn is_client_mode() -> Result<bool> {
     let args = Args::parse();
     match args.mode {
         Some(Mode::Client) => {
-            handle_client_mode(repo)?;
+            handle_client_mode().await?;
             return Ok(true);
         }
         Some(Mode::Server) => Ok(false),

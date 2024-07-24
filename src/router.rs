@@ -1,7 +1,6 @@
 use crate::{
     middleware::authorize,
     routes::{home, index, sign_in},
-    state::SharedState,
 };
 use axum::{middleware, routing::get, Router};
 use tower_http::{
@@ -11,7 +10,7 @@ use tower_http::{
 };
 use tracing::Level;
 
-pub fn service_with_state(state: SharedState) -> Router {
+pub fn service_with_state() -> Router {
     Router::new()
         .route("/home", get(home::default))
         .route_layer(middleware::from_fn(authorize))
@@ -23,6 +22,5 @@ pub fn service_with_state(state: SharedState) -> Router {
                 .make_span_with(DefaultMakeSpan::new().level(Level::INFO))
                 .on_response(DefaultOnResponse::new().level(Level::INFO)),
         )
-        .with_state(state)
         .fallback_service(ServeDir::new("assets"))
 }
