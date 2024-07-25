@@ -1,4 +1,4 @@
-use crate::prelude::*;
+use crate::{prelude::*, repositories::account_file::AccountFileRepository};
 
 mod error;
 mod middleware;
@@ -8,14 +8,18 @@ mod router;
 mod routes;
 mod security;
 mod services;
+mod state;
 
 #[tokio::main]
 async fn main() -> Result<()> {
     tracing_subscriber::fmt().compact().init();
+    let account_path = "./data/accounts.json".to_string();
+    let account_repo = thread_safe(AccountFileRepository::new(account_path.clone()));
     let name = env!("CARGO_PKG_NAME");
     let version = env!("CARGO_PKG_VERSION");
     println!("🚀 {name} version {version} started successfully.");
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8080").await?;
-    axum::serve(listener, router::service_with_state()).await?;
+    let state = state::SharedState::new(account_repo);
+    axum::serve(listener, router::service_with_state(state)).await?;
     Ok(())
 }

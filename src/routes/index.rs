@@ -1,10 +1,7 @@
-use crate::{
-    repositories::account_file::AccountFileRepository, security,
-    services::authentication::repositories::AccountRepository,
-};
+use crate::{security, state::SharedState};
 use askama::Template;
 use axum::{
-    extract::Form,
+    extract::{Form, State},
     http::StatusCode,
     response::{Html, IntoResponse},
 };
@@ -30,11 +27,13 @@ pub async fn default() -> impl IntoResponse {
     (StatusCode::OK, Html(response).into_response())
 }
 
-pub async fn parse_form(Form(form): Form<SignIn>) -> impl IntoResponse {
+pub async fn parse_form(
+    State(state): State<SharedState>,
+    Form(form): Form<SignIn>,
+) -> impl IntoResponse {
     let mut token = "".to_string();
     // Check user credentials
-    let path = "./data/accounts.json".to_string();
-    let repo = AccountFileRepository::new(path.clone());
+    let repo = state.account_repository.lock().unwrap();
     if let Ok(account) = repo.read(form.username) {
         let password = form.password;
         let password_hash = account.hash;

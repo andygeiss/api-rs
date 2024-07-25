@@ -31,6 +31,7 @@ body {
     border: none;
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 32px;
+    color: white;
     font-size: 14pt;
     height: 100%;
     margin: 0 16px;
