@@ -9,8 +9,6 @@ pub enum Error {
     Generic(String),
     #[error("I/O error: {0}")]
     Io(#[from] std::io::Error),
-    #[error("Tokio Join error: {0}")]
-    Join(#[from] tokio::task::JoinError),
     #[error("Parse int error: {0}")]
     ParseInt(#[from] std::num::ParseIntError),
     #[error("Paseto error: {0}")]

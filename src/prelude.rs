@@ -1,9 +1,6 @@
 pub use crate::error::Error;
 use std::sync::{Arc, Mutex};
 
-// Support #[async_trait] for traits
-pub use async_trait::async_trait;
-
 // Support #[automock] for traits
 pub use mockall::predicate::*;
 pub use mockall::*;
