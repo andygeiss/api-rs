@@ -37,8 +37,8 @@ pub async fn parse_form(
     if let Ok(account) = repo.read(form.username) {
         let password = form.password;
         let password_hash = account.hash;
-        if security::password::is_valid(password_hash, password) {
-            token = security::token::create();
+        if security::is_hash_valid(password_hash, password) {
+            token = security::create_token();
         }
     }
     // Create a template response

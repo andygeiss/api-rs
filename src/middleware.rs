@@ -12,7 +12,7 @@ pub async fn authorize(req: Request, next: Next) -> Result<Response, StatusCode>
         let value = hv.to_str().unwrap().to_string();
         // Check the token
         let (_, suffix) = value.split_at(7);
-        if security::token::is_valid(suffix.to_string()) {
+        if security::is_token_valid(suffix.to_string()) {
             return Ok(next.run(req).await);
         }
     }

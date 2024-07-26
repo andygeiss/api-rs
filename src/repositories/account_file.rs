@@ -26,7 +26,7 @@ impl AccountRepository for AccountFileRepository {
             return Ok(account.clone());
         }
         // Or create a new account, save and return it
-        let hash = security::password::create_hash(password);
+        let hash = security::create_hash(password);
         let account = Account { id, hash };
         accounts.push(account.clone());
         write_accounts(self.path.clone(), accounts)?;
@@ -47,7 +47,7 @@ impl AccountRepository for AccountFileRepository {
         let mut accounts: Vec<Account> = read_accounts(self.path.clone())?;
         // Update a specific account by id and return it
         if let Some(account) = accounts.iter_mut().find(|a| a.id == id) {
-            let hash = security::password::create_hash(password);
+            let hash = security::create_hash(password);
             account.hash = hash;
         }
         write_accounts(self.path.clone(), accounts)?;
