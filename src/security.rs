@@ -30,10 +30,7 @@ pub fn create_token() -> String {
 pub fn is_token_valid(token: String) -> bool {
     let key = PasetoSymmetricKey::<V4, Local>::from(static_random_key().to_owned());
     let result = PasetoParser::<V4, Local>::default().parse(&token, &key);
-    match result {
-        Ok(_) => true,
-        Err(_) => false,
-    }
+    result.is_ok()
 }
 
 fn static_random_key() -> &'static Key<32> {
