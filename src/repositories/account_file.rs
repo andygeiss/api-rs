@@ -51,7 +51,7 @@ impl AccountRepository for AccountFileRepository {
             account.hash = hash;
         }
         write_accounts(self.path.clone(), accounts)?;
-        return Ok(());
+        Ok(())
     }
     fn delete(&self, id: String) -> Result<()> {
         // Read the accounts from a file
